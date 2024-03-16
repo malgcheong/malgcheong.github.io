@@ -1,13 +1,15 @@
 # main links
 main:
-  - title: "About"
-    url:  /about/
+  # - title: "About"
+  #   url:  /about/
   - title: "Resume"
     url: https://malgcheong.notion.site/Link-9ecbe8f571e5482ab62bdfcc73810280?pvs=4
   - title: "Categories"
     url: /categories/
-  - title: "윤동주"
-    url: /categories/윤동주
+  - title: "Tags"
+    url: /tags/
+  # - title: "윤동주"
+    # url: /categories/윤동주
   # - title: "Quick-Start Guide"
     # url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
   # - title: "About"
