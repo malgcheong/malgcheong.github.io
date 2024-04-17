@@ -3,7 +3,7 @@ title:  "SW 사관학교 정글 0주차 회고"
 date: 2024-03-16
 excerpt: "속세와 단절된 행복한 삶"
 
-categories: [Blog]
+categories: [회고]
 tags: [SW 사관학교 정글]
 
 ---
