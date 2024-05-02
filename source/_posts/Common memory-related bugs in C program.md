@@ -1,8 +1,10 @@
 ---
 title: C프로그램에서의 공통된 메모리 관련 버그
 date: 2024-04-17 11:24:40
-categories: [C]
-tags: [SW 사관학교 정글]
+categories: 
+  - C
+tags: 
+  - SW 사관학교 정글
 ---
 
 9.11 C프로그램에서의 공통된 메모리 관련 버그 참고
@@ -45,7 +47,8 @@ printf("String entered using fgets: %s\n", str2);
 return 0;
 }
 ```
-![[img/Pasted image 20240417104700.png]]
+
+![](/images/c/1.png)
 
 ### 4. 포인터와 이들이 가리키는 객체들이 같은 크기라고 가정하기
 ```c
