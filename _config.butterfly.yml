@@ -3,7 +3,7 @@
 # --------------------------------------
 
 nav:
-  logo: /img/logo.jpg
+  logo: images/common/logo.png
   display_title: false
   fixed: false # fixed navigation bar
 
@@ -22,7 +22,7 @@ menu:
 # Code Blocks (代碼相關)
 # --------------------------------------
 
-highlight_theme: mac light #  darker / pale night / light / ocean / mac / mac light / false
+highlight_theme: mac #  darker / pale night / light / ocean / mac / mac light / false
 highlight_copy: true # copy button
 highlight_lang: true # show the code language
 highlight_shrink: false # true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button
@@ -40,42 +40,42 @@ social:
 # --------------------------------------
 
 # Favicon（網站圖標）
-favicon: /img/favicon.jpg
+favicon: images/common/favicon.jpg
 
 # Avatar (頭像)
 avatar:
-  img: img/avatar.jpg
+  img: images/common/avatar.jpg
   effect: false
 
 # Disable all banner image
 disable_top_img: false
 
 # The banner image of home page
-index_img: img/index_img.jpg
+index_img: images/common/index_img.jpg
 
 # If the banner of page not setting, it will show the top_img
-default_top_img: img/index_img.jpg
+default_top_img: images/common/index_img.jpg
 
 # The banner image of archive page
-archive_img: img/index_img.jpg
+archive_img: images/common/index_img.jpg
 
 # If the banner of tag page not setting, it will show the top_img
 # note: tag page, not tags page (子標籤頁面的 top_img)
-tag_img: img/index_img.jpg
+tag_img: images/common/index_img.jpg
 
 # The banner image of tag page
 # format:
 #  - tag name: xxxxx
-tag_per_img: img/index_img.jpg
+tag_per_img: images/common/index_img.jpg
 
 # If the banner of category page not setting, it will show the top_img
 # note: category page, not categories page (子分類頁面的 top_img)
-category_img: img/index_img.jpg
+category_img: images/common/index_img.jpg
 
 # The banner image of category page
 # format:
 #  - category name: xxxxx
-category_per_img: img/index_img.jpg
+category_per_img: images/common/index_img.jpg
 
 cover:
   # display the cover or not (是否顯示文章封面)
@@ -155,8 +155,8 @@ toc:
 
 post_copyright:
   enable: true
-  decode: false
-  author_href:
+  decode: true
+  author_href: https://malgcheong.github.io/
   license: CC BY-NC-SA 4.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
@@ -175,7 +175,7 @@ reward:
 # Post edit
 # Easily browse and edit blog source code online.
 post_edit:
-  enable: false
+  enable: true
   # url: https://github.com/user-name/repo-name/edit/branch-name/subdirectory-name/
   # For example: https://github.com/jerryc127/butterfly.js.org/edit/main/source/
   url:
