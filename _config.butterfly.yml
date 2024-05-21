@@ -84,7 +84,7 @@ cover:
   archives_enable: true
   # the position of cover in home page (封面顯示的位置)
   # left/right/both
-  position: both
+  position: left
   # When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)
   default_cover:
     # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
@@ -96,7 +96,7 @@ error_img:
 
 # A simple 404 page
 error_404:
-  enable: false
+  enable: true
   subtitle: 'Page Not Found'
   background: https://i.loli.net/2020/05/19/aKOcLiyPl2JQdFD.png
 
@@ -216,7 +216,7 @@ footer:
 
 aside:
   enable: true
-  hide: false
+  hide: true
   button: true
   mobile: true # display on mobile
   position: right # left or right
@@ -389,15 +389,15 @@ docsearch:
 # Share.js
 # https://github.com/overtrue/share.js
 sharejs:
-  enable: true
-  sites: facebook,twitter,wechat,weibo,qq
-
+  enable: false
+  sites: facebook,twitter,linkedin
+  # sites: facebook,twitter,wechat,weibo,qq
 # AddToAny
 # https://www.addtoany.com/
 addtoany:
-  enable: false
-  item: facebook,twitter,wechat,sina_weibo,facebook_messenger,email,copy_link
-
+  enable: true
+  item: linkedin,email,copy_link
+  # item: facebook,twitter,wechat,sina_weibo,facebook_messenger,email,copy_link
 # Comments System
 # --------------------------------------
 
@@ -732,13 +732,13 @@ beautify:
 font:
   global-font-size:
   code-font-size:
-  font-family: IBM Plex Mono, monospace
-  code-font-family: IBM Plex Mono, monospace
+  font-family: Radio Canada Big, Noto Serif KR
+  code-font-family: monospace, Noto Serif KR
 # Font settings for the site title and site subtitle
 # 左上角網站名字 主頁居中網站名字
 blog_title_font:
-  font_link: https://fonts.googleapis.com/css2?family=Gaegu&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Nanum+Gothic&display=swap" rel="stylesheet
-  font-family: Gaegu, sans-serif
+  font_link: https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600&family=Poetsen+One&family=Radio+Canada+Big&display=swap
+  font-family: Poetsen One, Noto Serif KR
 
 # The setting of divider icon (水平分隔線圖標設置)
 hr_icon:

@@ -5,6 +5,7 @@ excerpt: ""
 
 categories: [PINTOS]
 tags: [SW 사관학교 정글]
+cover: /images/pintos/part1 thread.jpg
 
 ---
 # 1. Alarm Clock

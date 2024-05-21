@@ -5,6 +5,7 @@ excerpt: ""
 
 categories: [PINTOS]
 tags: [SW 사관학교 정글]
+cover: /images/pintos/part3 virtual memory.jpg
 
 ---
 
