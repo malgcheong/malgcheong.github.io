@@ -730,7 +730,7 @@ beautify:
 # Global font settings
 # Don't modify the following settings unless you know how they work (非必要不要修改)
 font:
-  global-font-size:
+  global-font-size: 1.2em
   code-font-size:
   font-family: Radio Canada Big, Noto Serif KR
   code-font-family: monospace, Noto Serif KR
