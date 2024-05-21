@@ -5,6 +5,7 @@ excerpt: ""
 
 categories: [PINTOS]
 tags: [SW 사관학교 정글]
+cover: /images/pintos/part2 user program.jpg
 
 ---
 sw사관학교 정글 과정중 pintos project 2 진행중에 구현한 fork 의 과정을 추척하는 글을 작성 해보려고 한다.
