@@ -7,13 +7,13 @@ title: Malgcheong's Blog
 subtitle: '진솔한 개발 블로그입니다'
 description: ''
 keywords:
-author: Choeong Woo
+author: Cheongwoo Nam
 language: en
 timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://malgcheong.github.io/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -101,4 +101,6 @@ theme: butterfly
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/malgcheong/malgcheong.github.io.git
+  branch: gh-pages
