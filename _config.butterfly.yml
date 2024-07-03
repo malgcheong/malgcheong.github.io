@@ -730,16 +730,15 @@ beautify:
 # Global font settings
 # Don't modify the following settings unless you know how they work (非必要不要修改)
 font:
-  global-font-size:
+  global-font-size: 1.1em
   code-font-size:
-  font-family:
-  code-font-family:
-
+  font-family: Radio Canada Big, Noto Serif KR
+  code-font-family: monospace, Noto Serif KR
 # Font settings for the site title and site subtitle
 # 左上角網站名字 主頁居中網站名字
 blog_title_font:
-  font_link:
-  font-family:
+  font_link: https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600&family=Poetsen+One&family=Radio+Canada+Big&display=swap
+  font-family: Poetsen One, Noto Serif KR
 
 # The setting of divider icon (水平分隔線圖標設置)
 hr_icon:
