@@ -148,9 +148,9 @@ copy:
 toc:
   post: true
   page: false
-  number: true
+  number: false
   expand: false
-  style_simple: false # for post
+  style_simple: true # for post
   scroll_percent: true
 
 post_copyright:
@@ -178,7 +178,7 @@ post_edit:
   enable: true
   # url: https://github.com/user-name/repo-name/edit/branch-name/subdirectory-name/
   # For example: https://github.com/jerryc127/butterfly.js.org/edit/main/source/
-  url:
+  url: https://github.com/malgcheong/malgcheong.github.io/edit/main/source/
 
 # Related Articles
 related_post:
@@ -191,7 +191,7 @@ related_post:
 # 1: The 'next post' will link to old post
 # 2: The 'next post' will link to new post
 # false: disable pagination
-post_pagination: 1
+post_pagination: 2
 
 # Displays outdated notice for a post (文章過期提醒)
 noticeOutdate:
@@ -326,7 +326,7 @@ darkmode:
   end: # 22
 
 # show scroll percent in scroll-to-top button
-rightside_scroll_percent: false
+rightside_scroll_percent: true
 
 # Don't modify the following settings unless you know how they work (非必要請不要修改 )
 # Choose: readmode,translate,darkmode,hideAside,toc,chat,comment
