@@ -1,0 +1,181 @@
+<!DOCTYPE html><html class="hide-aside" lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>C프로그램 메모리 관련 버그 | Malgcheong's Blog</title><meta name="author" content="Cheongwoo Nam"><meta name="copyright" content="Cheongwoo Nam"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="9.11 C프로그램에서의 공통된 메모리 관련 버그 참고 1. 잘못된 포인터의 역참조1scanf(&quot;%d&quot;, val); scanf는 val의 값을 주소로 해석하고 이 위치에 워드를 쓰려고 한다.최상의 경우에 프로그램은 즉시 예외를 발생시키고 종료한다. 최악의 경우는 val의 값이 유효한 가상메모리의 읽기&#x2F;쓰기 영역에 대응되어 메모리를">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C프로그램 메모리 관련 버그">
+<meta property="og:url" content="https://malgcheong.github.io/2024/04/17/c/1/index.html">
+<meta property="og:site_name" content="Malgcheong&#39;s Blog">
+<meta property="og:description" content="9.11 C프로그램에서의 공통된 메모리 관련 버그 참고 1. 잘못된 포인터의 역참조1scanf(&quot;%d&quot;, val); scanf는 val의 값을 주소로 해석하고 이 위치에 워드를 쓰려고 한다.최상의 경우에 프로그램은 즉시 예외를 발생시키고 종료한다. 최악의 경우는 val의 값이 유효한 가상메모리의 읽기&#x2F;쓰기 영역에 대응되어 메모리를">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://malgcheong.github.io/images/common/avatar.jpg">
+<meta property="article:published_time" content="2024-04-17T02:24:40.000Z">
+<meta property="article:modified_time" content="2024-08-09T04:49:27.100Z">
+<meta property="article:author" content="Cheongwoo Nam">
+<meta property="article:tag" content="SW 사관학교 정글">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://malgcheong.github.io/images/common/avatar.jpg"><link rel="shortcut icon" href="/images/common/favicon.jpg"><link rel="canonical" href="https://malgcheong.github.io/2024/04/17/c/1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600&amp;family=Poetsen+One&amp;family=Radio+Canada+Big&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'C프로그램 메모리 관련 버그',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-08-09 13:49:27'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/common/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://malgcheong.notion.site"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/common/index_img.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Malgcheong's Blog"></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://malgcheong.notion.site"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">C프로그램 메모리 관련 버그<a class="post-edit-link" href="https://github.com/malgcheong/malgcheong.github.io/edit/main/source/_posts/c/1.md" title="Edited on" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-04-17T02:24:40.000Z" title="Created 2024-04-17 11:24:40">2024-04-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-08-09T04:49:27.100Z" title="Updated 2024-08-09 13:49:27">2024-08-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C/">C</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="C프로그램 메모리 관련 버그"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>9.11 C프로그램에서의 공통된 메모리 관련 버그 참고</p>
+<h3 id="1-잘못된-포인터의-역참조"><a href="#1-잘못된-포인터의-역참조" class="headerlink" title="1. 잘못된 포인터의 역참조"></a>1. 잘못된 포인터의 역참조</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, val);</span><br></pre></td></tr></table></figure>
+<p>scanf는 <strong>val의 값을 주소로 해석</strong>하고 <strong>이 위치에 워드를 쓰려고</strong> 한다.<br>최상의 경우에 프로그램은 즉시 예외를 발생시키고 종료한다. 최악의 경우는 val의 값이 유효한 가상메모리의 읽기&#x2F;쓰기 영역에 대응되어 메모리를 덮어쓰고, 대개 치명적이고 혼란을 일으키는 결과를 훨씬 뒤에 갖게 된다.</p>
+<h3 id="2-초기화되지-않은-메모리를-읽는-경우"><a href="#2-초기화되지-않은-메모리를-읽는-경우" class="headerlink" title="2. 초기화되지 않은 메모리를 읽는 경우"></a>2. 초기화되지 않은 메모리를 읽는 경우</h3><ul>
+<li>bss메모리 위치(초기값 없는 전역변수, static으로 선언된 변수, 배열)들은 항상 로더에 의해 0으로 초기화된다.</li>
+<li>heap메모리 위치는 calloc으로 할당해야 0으로 초기화됨. malloc으로 초기화하면 그렇지 않다.</li>
+</ul>
+<h3 id="3-스택-버퍼-오버플로우-허용하기"><a href="#3-스택-버퍼-오버플로우-허용하기" class="headerlink" title="3. 스택 버퍼 오버플로우 허용하기"></a>3. 스택 버퍼 오버플로우 허용하기</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stdio.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">MAX_LENGTH = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="type">char</span> str1[MAX_LENGTH];</span><br><span class="line"><span class="type">char</span> str2[MAX_LENGTH];</span><br><span class="line"></span><br><span class="line"><span class="comment">// gets 함수를 사용하여 문자열 입력 받기</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Enter a string using gets: &quot;</span>);</span><br><span class="line">gets(str1);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;String entered using gets: %s\n&quot;</span>, str1);</span><br><span class="line"></span><br><span class="line"><span class="comment">// fgets 함수를 사용하여 문자열 입력 받기</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Enter a string using fgets: &quot;</span>);</span><br><span class="line">fgets(str2, <span class="keyword">sizeof</span>(str2), <span class="built_in">stdin</span>);</span><br><span class="line"><span class="comment">// fgets는 개행 문자도 읽어들이므로 개행 문자 제거</span></span><br><span class="line">str2[<span class="built_in">strcspn</span>(str2, <span class="string">&quot;\n&quot;</span>)] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;String entered using fgets: %s\n&quot;</span>, str2);</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/c/1_1.png"></p>
+<h3 id="4-포인터와-이들이-가리키는-객체들이-같은-크기라고-가정하기"><a href="#4-포인터와-이들이-가리키는-객체들이-같은-크기라고-가정하기" class="headerlink" title="4. 포인터와 이들이 가리키는 객체들이 같은 크기라고 가정하기"></a>4. 포인터와 이들이 가리키는 객체들이 같은 크기라고 가정하기</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Create an nxm array */</span></span><br><span class="line"><span class="type">int</span> **<span class="title function_">makeArray1</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> m)</span>&#123;</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="type">int</span> **A = (<span class="type">int</span> **)<span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">		A[i] = (<span class="type">int</span> *)<span class="built_in">malloc</span>(m * <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-Off-by-One-에러-만들기"><a href="#5-Off-by-One-에러-만들기" class="headerlink" title="5. Off-by-One 에러 만들기"></a>5. Off-by-One 에러 만들기</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Create an nxm array */</span></span><br><span class="line"><span class="type">int</span> **<span class="title function_">makeArray2</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> m)</span>&#123;</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="type">int</span> **A = (<span class="type">int</span> **)<span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(<span class="type">int</span> *));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n; i++)</span><br><span class="line">		A[i] = (<span class="type">int</span> *)<span class="built_in">malloc</span>(m * <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-포인터가-가리키는-객체-대신에-포인터-참조하기"><a href="#6-포인터가-가리키는-객체-대신에-포인터-참조하기" class="headerlink" title="6. 포인터가 가리키는 객체 대신에 포인터 참조하기"></a>6. 포인터가 가리키는 객체 대신에 포인터 참조하기</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *<span class="title function_">binheapDelete</span><span class="params">(<span class="type">int</span> **binheap, <span class="type">int</span> *size)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> *packet = binheap[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">	binheap[<span class="number">0</span>] = binheap[*size - <span class="number">1</span>];</span><br><span class="line">	*size--; <span class="comment">/* This should be (*size)--*/</span></span><br><span class="line">	heapify(binheap, *size, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">return</span>(packet);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>6번 줄에서, <strong>–와 * 연산자들은 동일한 우선순위</strong>를 가지고 우에서 좌로 결합하기 때문에 이 코드는 실제로는 가리키는 정수 값 대신에 <strong>포인터 자신을 감소</strong>시킨다. </p>
+<h3 id="7-포인터-연산에-대한-오해"><a href="#7-포인터-연산에-대한-오해" class="headerlink" title="7. 포인터 연산에 대한 오해"></a>7. 포인터 연산에 대한 오해</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *<span class="title function_">search</span><span class="params">(<span class="type">int</span> *p, <span class="type">int</span> val)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(*p &amp;&amp; *p != val)</span><br><span class="line">		p += <span class="keyword">sizeof</span>(<span class="type">int</span>); <span class="comment">/* Should be p++ */</span></span><br><span class="line">	<span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-존재하지-않는-변수-참조하기"><a href="#8-존재하지-않는-변수-참조하기" class="headerlink" title="8. 존재하지 않는 변수 참조하기"></a>8. 존재하지 않는 변수 참조하기</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *<span class="title function_">stackref</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> val;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> &amp;val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>stackref</code> 함수가 호출될 때마다 <code>val</code>이라는 지역 변수가 생성되고 해당 변수의 주소를 반환합니다. 그러나 <code>val</code>은 함수가 종료되면 스택 프레임과 함께 사라지는 지역 변수이므로, <strong><code>stackref</code> 함수가 종료되면 비록 포인터가 여전히 유효한 메모리 주소를 가리키지만, 더 이상 유효한 변수를 가리키지는 않는다.</strong></p>
+<p>따라서 <code>stackref</code> 함수를 호출할 때마다 새로운 지역 변수 <code>val</code>이 생성되고 그 주소를 반환하지만, 이러한 주소는 함수가 종료된 후에는 더 이상 유효하지 않습니다. 다시 호출될 때마다 새로운 지역 변수가 생성되므로, 이전에 반환된 주소는 다른 지역 변수를 가리킬 것입니다.</p>
+<p>따라서 이러한 함수의 반환 값인 포인터는 재사용될 수 없으며, 사용하려면 함수가 반환하는 포인터를 별도의 변수에 저장해야 합니다.</p>
+<h3 id="9-가용-힙-블록-내-데이터-참조하기"><a href="#9-가용-힙-블록-내-데이터-참조하기" class="headerlink" title="9. 가용 힙 블록 내 데이터 참조하기"></a>9. 가용 힙 블록 내 데이터 참조하기</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *<span class="title function_">healpref</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> m)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="type">int</span> i;</span><br><span class="line"><span class="type">int</span> *x, *y;</span><br><span class="line"></span><br><span class="line">x = (<span class="type">int</span> *)<span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line"><span class="built_in">free</span>(x);</span><br><span class="line">y = (<span class="type">int</span> *)<span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; i++)</span><br><span class="line">	y[i] = x[i]++; <span class="comment">/* Oops! x[i] is a word in a free block */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="10-메모리-누수-leak-유발"><a href="#10-메모리-누수-leak-유발" class="headerlink" title="10. 메모리 누수 leak 유발"></a>10. 메모리 누수 leak 유발</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">leak</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> *x = (<span class="type">int</span> *)<span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span>; <span class="comment">/* x is garbage at this pointer */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>메모리 누수는 엔지니어가 <strong>할당된 블록들을 반환하는 것을 잊어서</strong> 힙에 가비지를 부주의하게 만들 때 일어나는 조용한 살인자다.<br>만일 leak이 자주 호출되면, 힙은 점차적으로 가비지로 가득 차게 되고, 최악의 경우 전체 가상 주소공간을 소모하게 된다. 메모리 누수는 특히 데몬 daemon, 서버와 같이 종료되지 않는 프로그램들의 경우에 심각하다.</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://malgcheong.github.io/">Cheongwoo Nam</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://malgcheong.github.io/2024/04/17/c/1/">https://malgcheong.github.io/2024/04/17/c/1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SW-%EC%82%AC%EA%B4%80%ED%95%99%EA%B5%90-%EC%A0%95%EA%B8%80/">SW 사관학교 정글</a></div><div class="post_share"><div class="addtoany"><div class="a2a_kit a2a_kit_size_32 a2a_default_style"><a class="a2a_button_linkedin"></a><a class="a2a_button_email"></a><a class="a2a_button_copy_link"></a><a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a></div></div><script async="async" src="https://static.addtoany.com/menu/page.js"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/03/16/%08%ED%9A%8C%EA%B3%A0/1/" title="SW 사관학교 정글 0주차 회고"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">SW 사관학교 정글 0주차 회고</div></div></a></div><div class="next-post pull-right"><a href="/2024/05/02/pintos/1/" title="OS Project 1 WIL"><img class="cover" src="/images/pintos/part1%20thread.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">OS Project 1 WIL</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/05/31/Tip/1/" title="LeetHub 커스텀하기"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-31</div><div class="title">LeetHub 커스텀하기</div></div></a></div><div><a href="/2024/03/16/%08%ED%9A%8C%EA%B3%A0/1/" title="SW 사관학교 정글 0주차 회고"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-16</div><div class="title">SW 사관학교 정글 0주차 회고</div></div></a></div><div><a href="/2024/05/02/pintos/1/" title="OS Project 1 WIL"><img class="cover" src="/images/pintos/part1%20thread.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-02</div><div class="title">OS Project 1 WIL</div></div></a></div><div><a href="/2024/05/28/pintos/3/" title="OS Project 3 WIL-2"><img class="cover" src="/images/pintos/part3%20virtual%20memory.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-28</div><div class="title">OS Project 3 WIL-2</div></div></a></div><div><a href="/2024/05/14/pintos/2/" title="OS Project 2 WIL"><img class="cover" src="/images/pintos/part2%20user%20program.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-14</div><div class="title">OS Project 2 WIL</div></div></a></div><div><a href="/2024/05/21/pintos/4/" title="OS Project 3 WIL"><img class="cover" src="/images/pintos/part3%20virtual%20memory.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-21</div><div class="title">OS Project 3 WIL</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%EC%9E%98%EB%AA%BB%EB%90%9C-%ED%8F%AC%EC%9D%B8%ED%84%B0%EC%9D%98-%EC%97%AD%EC%B0%B8%EC%A1%B0"><span class="toc-text">1. 잘못된 포인터의 역참조</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%EC%B4%88%EA%B8%B0%ED%99%94%EB%90%98%EC%A7%80-%EC%95%8A%EC%9D%80-%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%A5%BC-%EC%9D%BD%EB%8A%94-%EA%B2%BD%EC%9A%B0"><span class="toc-text">2. 초기화되지 않은 메모리를 읽는 경우</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%EC%8A%A4%ED%83%9D-%EB%B2%84%ED%8D%BC-%EC%98%A4%EB%B2%84%ED%94%8C%EB%A1%9C%EC%9A%B0-%ED%97%88%EC%9A%A9%ED%95%98%EA%B8%B0"><span class="toc-text">3. 스택 버퍼 오버플로우 허용하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%ED%8F%AC%EC%9D%B8%ED%84%B0%EC%99%80-%EC%9D%B4%EB%93%A4%EC%9D%B4-%EA%B0%80%EB%A6%AC%ED%82%A4%EB%8A%94-%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%B4-%EA%B0%99%EC%9D%80-%ED%81%AC%EA%B8%B0%EB%9D%BC%EA%B3%A0-%EA%B0%80%EC%A0%95%ED%95%98%EA%B8%B0"><span class="toc-text">4. 포인터와 이들이 가리키는 객체들이 같은 크기라고 가정하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Off-by-One-%EC%97%90%EB%9F%AC-%EB%A7%8C%EB%93%A4%EA%B8%B0"><span class="toc-text">5. Off-by-One 에러 만들기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%ED%8F%AC%EC%9D%B8%ED%84%B0%EA%B0%80-%EA%B0%80%EB%A6%AC%ED%82%A4%EB%8A%94-%EA%B0%9D%EC%B2%B4-%EB%8C%80%EC%8B%A0%EC%97%90-%ED%8F%AC%EC%9D%B8%ED%84%B0-%EC%B0%B8%EC%A1%B0%ED%95%98%EA%B8%B0"><span class="toc-text">6. 포인터가 가리키는 객체 대신에 포인터 참조하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%ED%8F%AC%EC%9D%B8%ED%84%B0-%EC%97%B0%EC%82%B0%EC%97%90-%EB%8C%80%ED%95%9C-%EC%98%A4%ED%95%B4"><span class="toc-text">7. 포인터 연산에 대한 오해</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%B3%80%EC%88%98-%EC%B0%B8%EC%A1%B0%ED%95%98%EA%B8%B0"><span class="toc-text">8. 존재하지 않는 변수 참조하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%EA%B0%80%EC%9A%A9-%ED%9E%99-%EB%B8%94%EB%A1%9D-%EB%82%B4-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%B0%B8%EC%A1%B0%ED%95%98%EA%B8%B0"><span class="toc-text">9. 가용 힙 블록 내 데이터 참조하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EB%88%84%EC%88%98-leak-%EC%9C%A0%EB%B0%9C"><span class="toc-text">10. 메모리 누수 leak 유발</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/images/common/index_img.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2024 By Cheongwoo Nam</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
