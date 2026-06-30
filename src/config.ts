@@ -50,7 +50,7 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/avatar.jpg",
 	name: "malgcheong",
-	bio: "Java·Spring 기반 백엔드 개발자입니다. 백엔드와 데브옵스에 관심이 있고, 최신 AI 모델 동향, 로컬 LLM 구성, OpenAI·OpenRouter 같은 LLM API 활용기를 기록합니다.",
+	bio: "Java·Spring 백엔드 개발자. 백엔드·데브옵스에 관심이 있고, AI 활용기를 기록합니다.",
 	links: [
 		{
 			name: "GitHub",
