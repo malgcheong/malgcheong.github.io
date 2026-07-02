@@ -1,0 +1,56 @@
+---
+// giscus 댓글 (GitHub Discussions 기반)
+// 사용 조건: repo Discussions 활성화 + https://giscus.app 에서 categoryId 발급 → config.ts commentConfig 채우고 enable: true
+import { commentConfig } from "../config";
+---
+{commentConfig.enable && (
+    <div class="card-base p-6 mb-4 rounded-[var(--radius-large)] onload-animation">
+        <div class="giscus"></div>
+        <script is:inline define:vars={{ cfg: commentConfig.giscus }}>
+            (function () {
+                function mount() {
+                    const container = document.querySelector(".giscus");
+                    if (!container || container.querySelector("iframe, script")) return;
+                    const s = document.createElement("script");
+                    s.src = "https://giscus.app/client.js";
+                    s.async = true;
+                    s.crossOrigin = "anonymous";
+                    const dark = document.documentElement.classList.contains("dark");
+                    const attrs = {
+                        "data-repo": cfg.repo,
+                        "data-repo-id": cfg.repoId,
+                        "data-category": cfg.category,
+                        "data-category-id": cfg.categoryId,
+                        "data-mapping": "pathname",
+                        "data-strict": "0",
+                        "data-reactions-enabled": "1",
+                        "data-emit-metadata": "0",
+                        "data-input-position": "top",
+                        "data-theme": dark ? "dark" : "light",
+                        "data-lang": cfg.lang || "ko",
+                    };
+                    for (const [k, v] of Object.entries(attrs)) s.setAttribute(k, v);
+                    container.appendChild(s);
+                }
+
+                // 사이트 라이트/다크 토글 시 giscus 테마 동기화
+                new MutationObserver(() => {
+                    const iframe = document.querySelector("iframe.giscus-frame");
+                    if (!iframe) return;
+                    iframe.contentWindow.postMessage(
+                        { giscus: { setConfig: { theme: document.documentElement.classList.contains("dark") ? "dark" : "light" } } },
+                        "https://giscus.app",
+                    );
+                }).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+                // swup 소프트 네비게이션 후에도 다시 마운트
+                if (window.swup?.hooks) {
+                    window.swup.hooks.on("page:view", mount);
+                } else {
+                    document.addEventListener("swup:enable", () => window.swup.hooks.on("page:view", mount));
+                }
+                mount();
+            })();
+        </script>
+    </div>
+)}

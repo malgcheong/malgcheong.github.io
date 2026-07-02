@@ -9,7 +9,7 @@ import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
 	title: "맑을 청 淸",
-	subtitle: "AI를 잘 쓰는 웹 개발자의 기록",
+	subtitle: "백엔드 개발자의 AI 활용 기록",
 	lang: "ko", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
 		hue: 210, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
@@ -58,6 +58,17 @@ export const profileConfig: ProfileConfig = {
 			url: "https://github.com/malgcheong",
 		},
 	],
+};
+
+export const commentConfig = {
+	enable: false, // 사용법: repo Settings→General→Features→Discussions 체크 → https://giscus.app 에서 categoryId 발급 → 아래 채우고 true
+	giscus: {
+		repo: "malgcheong/malgcheong.github.io",
+		repoId: "R_kgDOLtnxyQ",
+		category: "Announcements",
+		categoryId: "", // giscus.app에서 발급
+		lang: "ko",
+	},
 };
 
 export const licenseConfig: LicenseConfig = {
